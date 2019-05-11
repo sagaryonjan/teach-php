@@ -1,107 +1,31 @@
-<html>
+<?php
 
-<style>
-    .error {
-        color: red
-    }
-</style>
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-<body>
+include 'Cookie.php';
 
-    <?php
+$cookie = new Cookie();
 
-        $full_name = '';
-        $email = '';
-        $website = '';
-        $about_you = '';
-        $mobile_number = '';
-        $gender = '';
-        $errors = [];
+$cookie->set('name', 'Ramesh');
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $full_name = $_POST['full_name'];
+$cookie_name = $cookie->get('name');
 
-            $email = $_POST['email'];
-            $website = $_POST['website'];
-            $about_you = $_POST['about_you'];
-            $mobile_number = $_POST['mobile_number'];
-            $gender = $_POST['gender'];
+$cookie->delete('name');
+//echo $cookie_name;
 
-            if (empty($full_name)) {
-                $errors['full_name'] = 'Full name is required.';
-            } elseif (!preg_match("/^[a-zA-Z ]*$/", $full_name)) {
-                $errors['full_name'] = "Only letters and white space allowed";
-            }
+//print_r($cookie);
 
-            if (empty($email)) {
-                $errors['email'] = 'Email is required.';
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors['email'] = "Invalid email format";
-            }
+/**
+ * Muti Array dimetna
+ */
+$cars = [
+    ["Volvo", ['tolvo'], 18],
+    ["BMW", 15, 13],
+    ["Saab", 5, 2],
+    ["Land Rover", 17, 15]
+];
 
-            if (empty($website)) {
-                $errors['website'] = 'Website is required.';
-            }
-
-            if (empty($about_you)) {
-                $errors['about_you'] = 'About you is required.';
-            }
-        }
-
-        /**
-         * Erro Display
-         */
-        function errorDisplay($errors, $field)
-        {
-            $error_html = '';
-            if (isset($errors[$field])) {
-                $error_html = '<span class="error">* ' . $errors[$field] . '</span>';
-            }
-            return $error_html;
-        }
-
-    ?>
-    <br><br>
-
-    <form
-        action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
-        method="POST">
-
-        Full Name: <input type="text" name="full_name"
-            value="<?php echo $full_name; ?>">
-        <?php echo errorDisplay($errors, 'full_name'); ?>
-        <br><br>
-
-        E-mail: <input type="email" name="email"
-            value="<?php echo $email;?>">
-        <?php echo errorDisplay($errors, 'email');?>
-        <br><br>
-
-        Website: <input type="url" name="website"
-            value="<?php echo $website;?>">
-        <?php echo errorDisplay($errors, 'website'); ?>
-
-        <br><br>
-
-        Mobile Number: <input type="number" min="1" name="mobile_number"
-            value="<?php echo $mobile_number;?>"><br><br>
-
-        About You: <textarea name="about_you" rows="5"
-            cols="40"><?php echo stripslashes($about_you); ?></textarea>
-        <br><br>
-
-        Gender:
-        <input type="radio" name="gender" value="female" <?php echo $gender == 'female' ? 'checked' : '';  ?>
-        >Female
-        <input type="radio" name="gender" value="male" <?php echo $gender == 'male' ? 'checked' : '';?>
-        >Male
-        <input type="radio" name="gender" value="other" <?php echo $gender == 'other' ? 'checked' : ''; ?>
-        >Other
-        <hr />
-
-        <input type="submit">
-    </form>
-
-</body>
-
-</html>
+///echo '<pre>';
+//print_r($cars[0][1][0]);
